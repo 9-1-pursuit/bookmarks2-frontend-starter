@@ -17,16 +17,15 @@ function App() {
     <div className="App">
       <Router>
         <NavBar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/bookmarks" element={<Index />} />
-            <Route path="/bookmarks/new" element={<New />} />
-            <Route exact path="/bookmarks/:id" element={<Show />} />
-            <Route path="/bookmarks/:id/edit" element={<Edit />} />
-            <Route path="*" element={<FourOFour />} />
-          </Routes>
-        </main>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/bookmarks" element={<Index />} />
+          <Route path="/bookmarks/new" element={<New />} />
+          <Route exact path="/bookmarks/:id" element={<Show />} />
+          <Route path="/bookmarks/:id/edit" element={<Edit />} />
+          <Route path="*" element={<FourOFour />} />
+        </Routes>
       </Router>
     </div>
   );

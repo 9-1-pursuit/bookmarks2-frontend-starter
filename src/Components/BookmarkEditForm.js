@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 const API = process.env.REACT_APP_API_URL;
 
 function BookmarkEditForm() {
@@ -8,22 +8,24 @@ function BookmarkEditForm() {
   let navigate = useNavigate();
 
   const [bookmark, setBookmark] = useState({
-    name: '',
-    url: '',
-    category: '',
-    is_favorite: false
+    name: "",
+    url: "",
+    category: "",
+    is_favorite: false,
   });
 
   const updateBookmark = (updatedBookmark) => {
+    console.log("IDDDDDD", id);
     axios
       .put(`${API}/bookmarks/${id}`, updatedBookmark)
       .then(
         () => {
+          console.log("hello", id);
           navigate(`/bookmarks/${id}`);
         },
         (error) => console.error(error)
       )
-      .catch((c) => console.warn('catch', c));
+      .catch((c) => console.warn("catch", c));
   };
 
   const handleTextChange = (event) => {

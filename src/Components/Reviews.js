@@ -22,7 +22,7 @@ function Reviews() {
       .catch((c) => console.warn("catch", c));
   };
 
-  const handleEdit = (updatedReview) => {
+  const handleEdit = (updatedReview, id) => {
     axios
       .put(`${API}/bookmarks/${id}/reviews/${updatedReview.id}`, updatedReview)
       .then((response) => {
@@ -63,7 +63,7 @@ function Reviews() {
   return (
     <section className="Reviews">
       <h2>Reviews</h2>
-      <ReviewForm handleSubmit={handleAdd}>
+      <ReviewForm handleAdd={handleAdd}>
         <h3>Add a New Review</h3>
       </ReviewForm>
       {reviews.map((review) => (
@@ -71,7 +71,7 @@ function Reviews() {
           key={review.id}
           review={review}
           handleDelete={handleDelete}
-          handleSubmit={handleEdit}
+          handleEdit={handleEdit}
         />
       ))}
     </section>

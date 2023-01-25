@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+// purposely using the word props now so i can distinguish between handleEdit and handleAdd
 function ReviewForm(props) {
   const { id } = useParams();
   const { reviewDetails } = props;
 
-  const [review, setReview] = useState({
+  const [newOrUpdatedReview, setNewOrUpdatedReview] = useState({
     reviewer: "",
     title: "",
     content: "",
@@ -14,22 +15,33 @@ function ReviewForm(props) {
   });
 
   const handleTextChange = (event) => {
-    setReview({ ...review, [event.target.id]: event.target.value });
+    setNewOrUpdatedReview({
+      ...newOrUpdatedReview,
+      [event.target.id]: event.target.value,
+    });
   };
 
   useEffect(() => {
     if (reviewDetails) {
-      setReview(reviewDetails);
+      setNewOrUpdatedReview(reviewDetails);
     }
   }, [id, reviewDetails, props]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.handleSubmit(review, id);
+    //if there are reviewDetails, it means that we are editing, otherwise we are creating a new review.
+    // here we are now using the actual function names instead of handleSubmit for both functions
+    if (reviewDetails) {
+      props.handleEdit(newOrUpdatedReview, id);
+    } else {
+      props.handleAdd(newOrUpdatedReview);
+    }
+
+    //after i submit, toggle this view back to displaying the review
     if (reviewDetails) {
       props.toggleView();
     }
-    setReview({
+    setNewOrUpdatedReview({
       reviewer: "",
       title: "",
       content: "",
@@ -44,7 +56,7 @@ function ReviewForm(props) {
         <label htmlFor="reviewer">Name:</label>
         <input
           id="reviewer"
-          value={review.reviewer}
+          value={newOrUpdatedReview.reviewer}
           type="text"
           onChange={handleTextChange}
           placeholder="Your name"
@@ -55,7 +67,7 @@ function ReviewForm(props) {
           id="title"
           type="text"
           required
-          value={review.title}
+          value={newOrUpdatedReview.title}
           onChange={handleTextChange}
         />
         <label htmlFor="rating">Rating:</label>
@@ -66,7 +78,7 @@ function ReviewForm(props) {
           min="0"
           max="5"
           step="1"
-          value={review.rating}
+          value={newOrUpdatedReview.rating}
           onChange={handleTextChange}
         />
         <label htmlFor="content">Review:</label>
@@ -74,7 +86,7 @@ function ReviewForm(props) {
           id="content"
           type="text"
           name="content"
-          value={review.content}
+          value={newOrUpdatedReview.content}
           placeholder="What do you think..."
           onChange={handleTextChange}
         />
